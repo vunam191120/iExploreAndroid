@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">i-Explore</string>
+    <string name="heading_add_new_trip">Details trip page</string>
+    <string name="activity_name">Activity Name</string>
+    <string name="destination">Destination</string>
+    <string name="description">Description</string>
+    <string name="date">Date</string>
+    <string name="time_attending">Time of attending:</string>
+    <string name="name_reporter">Name of reporter</string>
+    <string name="set_time_btn">Set Time</string>
+    <string name="submit_btn">Submit</string>
+    <string name="invalid_name">Please enter valid name</string>
+    <string name="risky">Risky Assessment</string>
+    <string name="required">required</string>
+    <string name="optional">optional</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_list_trip">List Trip</string>
+    <string name="nav_setting">Settings</string>
+    <string name="email_user">namvhgch18692@gmail.com</string>
+    <string name="name_user">Vu Hai Nam</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="minus_separate">-</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+</resources>
