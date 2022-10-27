@@ -21,6 +21,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -68,7 +70,8 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
     AutoCompleteTextView autoCompleteTxt;
     ArrayAdapter<String> adapterRiskyItems;
     Button btnTime, btnSubmit;
-    EditText input_reporter_name, input_activity_name, input_destination, input_date, input_description;
+    EditText input_reporter_name, input_activity_name, input_destination, input_description;
+    TextInputEditText input_date;
     int hour, minute;
     public static final int REQUEST_CODE = 11; // Used to identify the result
     private DatePickerDialog fromDatePickerDialog;
@@ -144,10 +147,10 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         // DatePicker
         input_date.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                DialogFragment datePicker = new DatePickerFragment();
-                FragmentManager fragmentManager = getFragmentManager();
-                datePicker.show(fragmentManager,"date picker");
+            public void onClick(View v) {
+                DatePickerFragment newFragment = new DatePickerFragment();
+                newFragment.setDateInput(input_date);
+                newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
             }
         });
 
