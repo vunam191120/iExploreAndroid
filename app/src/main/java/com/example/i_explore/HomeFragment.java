@@ -4,16 +4,11 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -22,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -72,6 +68,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
     Button btnTime, btnSubmit;
     EditText input_reporter_name, input_activity_name, input_destination, input_description;
     TextInputEditText input_date;
+    String risky_assessment = "Easy", reporter_name = "", time="";
     int hour, minute;
     public static final int REQUEST_CODE = 11; // Used to identify the result
     private DatePickerDialog fromDatePickerDialog;
@@ -83,14 +80,6 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-//        input_date.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                DialogFragment datePicker = new DatePickerFragment();
-//                datePicker.show(getFragmentManager(), "date picker");
-//            }
-//        });
     }
 
     @Override
@@ -133,7 +122,14 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                 input_date.setError(null);
             }
             if(valid) {
+                reporter_name = input_reporter_name.getText().toString();
+                if(btnTime.getText().toString() != "SET TIME") {
+                    time = btnTime.getText().toString();
+                }
 
+                DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+                dbHelper.insertTrip(reporter_name, activity_name, destination, risky_assessment, date, time, description);
+                Toast.makeText(getActivity(), "Added new trip successfully!", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -160,7 +156,7 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         autoCompleteTxt.setAdapter(adapterRiskyItems);
         autoCompleteTxt.setOnItemClickListener((adapterView, view13, position, id) -> {
             String item = adapterView.getItemAtPosition(position).toString();
-            Toast.makeText(getActivity(), "Item: " + item, Toast.LENGTH_SHORT).show();
+            risky_assessment = item;
         });
         return view;
     }

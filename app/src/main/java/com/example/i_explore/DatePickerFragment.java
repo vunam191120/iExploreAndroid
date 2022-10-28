@@ -40,6 +40,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-        dateInput.setText((String.valueOf(i2 + "/" + i1 + "/" +i)));
+        dateInput.setText((String.valueOf(i2 + "/" + (i1 + 1) + "/" +i)));
     }
 }

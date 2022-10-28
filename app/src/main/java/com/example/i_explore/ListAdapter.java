@@ -11,9 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListAdapter extends ArrayAdapter {
-    public ListAdapter (Context context, ArrayList<Trip> tripArrayList) {
+    public ListAdapter (Context context, List<Trip> tripArrayList) {
         super(context, R.layout.list_item, tripArrayList);
     }
 

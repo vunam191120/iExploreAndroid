@@ -7,6 +7,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +50,8 @@ public class TripsFragment extends Fragment {
         return fragment;
     }
 
+    ListView tripList;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +65,15 @@ public class TripsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_trips, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_trips, container, false);
+        tripList = view.findViewById(R.id.listTrips);
+
+        DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+        List<Trip> trips = dbHelper.getTrips();
+        ArrayAdapter<Trip> arrayAdapter = new ListAdapter(getActivity(), trips);
+        tripList.setAdapter(arrayAdapter);
+
+        return view;
     }
 }
