@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:id="@+id/fragment_container_home"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".HomeFragment"
+    tools:viewBindingIgnore="true"
+    >
 
     <!-- TODO: Update blank fragment layout -->
         <ScrollView

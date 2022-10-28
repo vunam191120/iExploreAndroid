@@ -1,6 +1,7 @@
 package com.example.i_explore;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,29 +14,33 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListAdapter extends ArrayAdapter {
+public class ListAdapter extends ArrayAdapter<Trip> {
     public ListAdapter (Context context, List<Trip> tripArrayList) {
-        super(context, R.layout.list_item, tripArrayList);
+        super(context, R.layout.list_item, R.id.txtActivityName, tripArrayList);
+//        super(context, R.layout.list_item, tripArrayList);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Trip trip = (Trip) getItem(position);
-
         if(convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent,false);
         }
 
-        TextView activityName = convertView.findViewById(R.id.txtActivityName);
-        TextView date = convertView.findViewById(R.id.txtDate);
-        TextView time = convertView.findViewById(R.id.txtTime);
-        TextView description = convertView.findViewById(R.id.txtDescription);
+        Trip trip = getItem(position);
 
+        TextView activityName = convertView.findViewById(R.id.txtActivityName);
         activityName.setText(trip.activity_name);
+
+        TextView date = convertView.findViewById(R.id.txtDate);
         date.setText(trip.date);
+
+        TextView time = convertView.findViewById(R.id.txtTime);
         time.setText(trip.time);
+
+        TextView description = convertView.findViewById(R.id.txtDescription);
         description.setText(trip.description);
+
 
         return super.getView(position, convertView, parent);
     }

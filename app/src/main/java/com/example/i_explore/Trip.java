@@ -1,5 +1,7 @@
 package com.example.i_explore;
 
+import androidx.annotation.NonNull;
+
 public class Trip {
     protected int id;
     protected String reporter_name;
@@ -20,6 +22,12 @@ public class Trip {
         this.risky_assessment = risky_assessment;
         this.time = time;
     }
+
+//    @NonNull
+//    @Override
+//    public String toString() {
+//        return id + "-" + reporter_name + "-" + activity_name + "-" + description;
+//    }
 
     public int getId() {
         return id;

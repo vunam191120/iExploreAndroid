@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.i_explore.databinding.FragmentTripsBinding;
+
 import java.util.List;
 
 /**
@@ -52,6 +54,8 @@ public class TripsFragment extends Fragment {
 
     ListView tripList;
 
+    private FragmentTripsBinding binding;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,13 +69,16 @@ public class TripsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        binding = FragmentTripsBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
 
-        View view = inflater.inflate(R.layout.fragment_trips, container, false);
         tripList = view.findViewById(R.id.listTrips);
 
         DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+
         List<Trip> trips = dbHelper.getTrips();
-        ArrayAdapter<Trip> arrayAdapter = new ListAdapter(getActivity(), trips);
+//        ArrayAdapter<Trip> arrayAdapter = new ArrayAdapter<Trip>(getActivity(), R.layout.list_item, R.id.txtActivityName, trips);
+        ListAdapter arrayAdapter = new ListAdapter(getActivity(), trips);
         tripList.setAdapter(arrayAdapter);
 
         return view;
