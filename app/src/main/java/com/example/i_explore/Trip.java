@@ -3,7 +3,7 @@ package com.example.i_explore;
 import androidx.annotation.NonNull;
 
 public class Trip {
-    protected int id;
+    protected int trip_id;
     protected String reporter_name;
     protected String activity_name;
     protected String destination;
@@ -12,8 +12,8 @@ public class Trip {
     protected String risky_assessment;
     protected String time;
 
-    public Trip(int id, String reporter_name, String activity_name, String destination, String description, String risky_assessment, String date, String time) {
-        this.id = id;
+    public Trip(int trip_id, String reporter_name, String activity_name, String destination, String description, String risky_assessment, String date, String time) {
+        this.trip_id = trip_id;
         this.reporter_name = reporter_name;
         this.activity_name = activity_name;
         this.destination = destination;
@@ -29,12 +29,12 @@ public class Trip {
 //        return id + "-" + reporter_name + "-" + activity_name + "-" + description;
 //    }
 
-    public int getId() {
-        return id;
+    public int getTrip_id() {
+        return trip_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(int trip_id) {
+        this.trip_id = trip_id;
     }
 
     public String getReporter_name() {

@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +19,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -61,7 +62,6 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
         return fragment;
     }
 
-
     String[] riskyItems = {"Easy", "Medium", "Hard"};
     AutoCompleteTextView autoCompleteTxt;
     ArrayAdapter<String> adapterRiskyItems;
@@ -70,8 +70,15 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
     TextInputEditText input_date;
     String risky_assessment = "Easy", reporter_name = "", time="";
     int hour, minute;
-    public static final int REQUEST_CODE = 11; // Used to identify the result
-    private DatePickerDialog fromDatePickerDialog;
+    Toolbar mActionBarToolbar;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Set title
+        mActionBarToolbar = getActivity().findViewById(R.id.toolbar);
+        mActionBarToolbar.setTitle("i-Explore");
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -130,11 +137,16 @@ public class HomeFragment extends Fragment implements DatePickerDialog.OnDateSet
                 DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
                 dbHelper.insertTrip(reporter_name, activity_name, destination, risky_assessment, date, time, description);
                 Toast.makeText(getActivity(), "Added new trip successfully!", Toast.LENGTH_SHORT).show();
+
+                Fragment newListFragment = new TripsFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container_home, newListFragment)
+                        .commit();
             }
         });
 
         // Input at add trip form
-        input_reporter_name = view.findViewById(R.id.inputReporterName);
+        input_reporter_name = view.findViewById(R.id.inputType);
         input_activity_name = view.findViewById(R.id.inputActivityName);
         input_destination = view.findViewById(R.id.inputDestination);
         input_date = view.findViewById(R.id.inputDate);

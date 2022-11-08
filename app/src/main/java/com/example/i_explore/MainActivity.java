@@ -8,8 +8,10 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -21,18 +23,25 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout myDrawerLayout;
 
-
+//    private TripViewModel viewModel;
 
     private static final int FRAGMENT_HOME = 0;
     private static final int FRAGMENT_LIST_TRIPS = 1;
     private static final int FRAGMENT_SETTINGS = 2;
 
     private int myCurrentFragment = FRAGMENT_HOME;
+    Toolbar mActionBarToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set ViewModel to share data between activities and fragments
+//        viewModel = new ViewModelProvider(this).get(TripViewModel.class);
+//        viewModel.getSelectedItem().observe(this, item -> {
+//            Log.v(item.toString(), "Item get from ViewModel Activity");
+//        });
 
         // Hide app title bar if using default theme
         // getSupportActionBar().hide();
@@ -59,16 +68,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(id == R.id.nav_home) {
             if(myCurrentFragment != FRAGMENT_HOME) {
                 replaceFragment(new HomeFragment());
+                mActionBarToolbar = findViewById(R.id.toolbar);
+                mActionBarToolbar.setTitle("i-Explore");
                 myCurrentFragment = FRAGMENT_HOME;
             }
         } else if (id == R.id.nav_list_trip) {
             if(myCurrentFragment != FRAGMENT_LIST_TRIPS) {
                 replaceFragment(new TripsFragment());
+                mActionBarToolbar = findViewById(R.id.toolbar);
+                mActionBarToolbar.setTitle("List Trip");
                 myCurrentFragment = FRAGMENT_LIST_TRIPS;
             }
         } else if (id == R.id.nav_setting) {
             if(myCurrentFragment != FRAGMENT_SETTINGS) {
                 replaceFragment(new SettingsFragment());
+                mActionBarToolbar = findViewById(R.id.toolbar);
+                mActionBarToolbar.setTitle("Settings");
+                myCurrentFragment = FRAGMENT_SETTINGS;
             }
         }
         myDrawerLayout.closeDrawer(GravityCompat.START);
@@ -87,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void replaceFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.content_frame, fragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 }

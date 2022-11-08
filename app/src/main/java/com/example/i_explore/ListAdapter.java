@@ -16,8 +16,8 @@ import java.util.List;
 
 public class ListAdapter extends ArrayAdapter<Trip> {
     public ListAdapter (Context context, List<Trip> tripArrayList) {
-        super(context, R.layout.list_item, R.id.txtActivityName, tripArrayList);
-//        super(context, R.layout.list_item, tripArrayList);
+//        super(context, R.layout.list_item, R.id.txtActivityName, tripArrayList);
+        super(context, R.layout.list_item, R.id.itemTrip, tripArrayList);
     }
 
     @NonNull
@@ -37,6 +37,9 @@ public class ListAdapter extends ArrayAdapter<Trip> {
 
         TextView time = convertView.findViewById(R.id.txtTime);
         time.setText(trip.time);
+
+        TextView destination = convertView.findViewById(R.id.txtDestination);
+        destination.setText(trip.destination);
 
         TextView description = convertView.findViewById(R.id.txtDescription);
         description.setText(trip.description);
