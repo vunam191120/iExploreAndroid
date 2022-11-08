@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,16 +21,27 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,7 +88,7 @@ public class TripDetailsFragment extends Fragment implements DatePickerDialog.On
     String[] riskyItems = {"Easy", "Medium", "Hard"};
     AutoCompleteTextView autoCompleteTxt;
     ArrayAdapter<String> adapterRiskyItems;
-    Button btnTime, btnUpdate, btnDelete, btnAddExpense;
+    Button btnTime, btnUpdate, btnDelete, btnAddExpense, btnUpload;
     EditText input_reporter_name, input_activity_name, input_destination, input_description;
     TextInputEditText input_date;
     TextInputLayout input_risky_assessment;
@@ -106,7 +118,7 @@ public class TripDetailsFragment extends Fragment implements DatePickerDialog.On
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_trip_details, container, false);
-
+        btnUpload = view.findViewById(R.id.btnUpload);
         btnTime = view.findViewById(R.id.btnSetTime);
         btnUpdate = view.findViewById(R.id.btnUpdate);
         btnDelete = view.findViewById(R.id.btnDelete);
@@ -148,6 +160,8 @@ public class TripDetailsFragment extends Fragment implements DatePickerDialog.On
                 mActionBarToolbar.setTitle("Expense Details");
             }
         });
+
+
 
         // Time picker
         btnTime.setOnClickListener(new View.OnClickListener() {
@@ -307,6 +321,70 @@ public class TripDetailsFragment extends Fragment implements DatePickerDialog.On
                         })
                         .setNegativeButton("No", null)
                         .show();
+            }
+        });
+
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
+                List<Expense> tripDetails = dbHelper.getExpenses(trip_id);
+
+                ArrayList<Object> Upload = new ArrayList<Object>();
+
+                tripDetails.forEach(element -> {
+                    String amount1 = element.getAmount();
+                    String type1 = element.getType();
+                    String time1 = element.getTime();
+                    Integer id1 = element.getExpense_id();
+                    Integer trip_id1 = element.getTrip_id();
+
+                    try {
+                        Upload.add(new JSONObject()
+                                .put("amount", amount1)
+                                .put("type", type1)
+                                .put("time", time1)
+                                .put("id", id1)
+                                .put("trip_id", trip_id1));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                });
+                String jsonString = null;
+                try {
+                    jsonString = new JSONObject()
+                            .put("userId", "gw001249268")
+                            .putOpt("detailList", new JSONArray(Upload)).toString()    ;
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+//            String text = "{\"userId\": 1249268, \"detailList\":" + Upload.toString() + "}";
+
+//            Log.e("Array", text);
+                Log.e("TAG", "onResponse: Message " );
+
+                ApiInterface apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
+                Call<Upload> call = apiInterface.getUserInformation(jsonString.toString());
+                Log.e("TAG", "onResponse: Message2 " );
+
+                call.enqueue(new Callback<Upload>() {
+
+                    @Override
+                    public void onResponse(Call<Upload> call, Response<Upload> response) {
+                        Log.e("TAG", "onResponse: Message " + response.body().getMessage());
+                        Log.e("TAG", "onResponse: Message " + response.body().getNames());
+                        Log.e("TAG", "onResponse: Message " + response.body().getUserid());
+                        Log.e("TAG", "onResponse: Message " + response.body().getUploadResponseCode());
+                        Log.e("TAG", "onResponse: Message " + response.body().getNumber());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Upload> call, Throwable t) {
+
+                    }
+                });
             }
         });
 
