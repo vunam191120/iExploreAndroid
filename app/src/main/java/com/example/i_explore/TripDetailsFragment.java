@@ -360,6 +360,9 @@ public class TripDetailsFragment extends Fragment implements DatePickerDialog.On
                     e.printStackTrace();
                 }
 
+//            String text = "{\"userId\": 1249268, \"detailList\":" + Upload.toString() + "}";
+
+//            Log.e("Array", text);
                 Log.e("TAG", "onResponse: Message " );
 
                 ApiInterface apiInterface = RetrofitClient.getRetrofitInstance().create(ApiInterface.class);
@@ -375,16 +378,17 @@ public class TripDetailsFragment extends Fragment implements DatePickerDialog.On
                         Log.e("TAG", "onResponse: Message " + response.body().getUserid());
                         Log.e("TAG", "onResponse: Message " + response.body().getUploadResponseCode());
                         Log.e("TAG", "onResponse: Message " + response.body().getNumber());
+
+                        Toast.makeText(getContext(), response.body().getMessage(), Toast.LENGTH_LONG).show();;
                     }
 
                     @Override
                     public void onFailure(Call<Upload> call, Throwable t) {
-                        Log.e("Message: ", "Failed" + t.getMessage());
+
                     }
                 });
             }
         });
-
         return view;
     }
 
